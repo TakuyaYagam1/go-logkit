@@ -10,6 +10,7 @@ type Options struct {
 	Level       Level
 	Output      OutputType
 	FileOptions FileOptions
+	ServiceName string
 }
 
 // FileOptions configures file (or both) output. Used by lumberjack; zero values
@@ -44,5 +45,12 @@ func WithOutput(output OutputType) Option {
 func WithFileOptions(fo FileOptions) Option {
 	return func(o *Options) {
 		o.FileOptions = fo
+	}
+}
+
+// WithServiceName sets the service name; adds a "service" field to every log event.
+func WithServiceName(name string) Option {
+	return func(o *Options) {
+		o.ServiceName = name
 	}
 }

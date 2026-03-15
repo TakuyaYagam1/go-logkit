@@ -2,6 +2,7 @@ package logger
 
 import (
 	"errors"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -80,9 +81,11 @@ func TestOptions_Apply(t *testing.T) {
 	WithLevel(ErrorLevel)(opts)
 	WithOutput(FileOutput)(opts)
 	WithFileOptions(FileOptions{Filename: "/tmp/log"})(opts)
+	WithServiceName("api")(opts)
 	assert.Equal(t, ErrorLevel, opts.Level)
 	assert.Equal(t, FileOutput, opts.Output)
 	assert.Equal(t, "/tmp/log", opts.FileOptions.Filename)
+	assert.Equal(t, "api", opts.ServiceName)
 }
 
 func TestNoop_AllMethods(t *testing.T) {
@@ -110,8 +113,18 @@ func TestNew_FileOutput_Success(t *testing.T) {
 
 func TestZerologLogger_Log_MergesMultipleFields(t *testing.T) {
 	t.Parallel()
-	l, err := New(WithLevel(InfoLevel), WithOutput(ConsoleOutput))
+	dir := t.TempDir()
+	filename := dir + "/merge.log"
+	l, err := New(WithLevel(InfoLevel), WithOutput(FileOutput), WithFileOptions(FileOptions{Filename: filename}))
 	require.NoError(t, err)
 	l.Info("merged", Fields{"a": 1}, Fields{"b": 2})
 	l.Info("override", Fields{"k": "first"}, Fields{"k": "second"})
+	data, err := os.ReadFile(filename)
+	require.NoError(t, err)
+	content := string(data)
+	require.Contains(t, content, "merged")
+	require.Contains(t, content, "a")
+	require.Contains(t, content, "b")
+	require.Contains(t, content, "override")
+	require.Contains(t, content, "second")
 }

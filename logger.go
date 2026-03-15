@@ -55,8 +55,11 @@ func New(opts ...Option) (Logger, error) {
 	default:
 		output = os.Stdout
 	}
-	zl := zerolog.New(output).With().Timestamp().Caller().Logger()
-	zl = zl.Level(convertLogLevel(o.Level))
+	zc := zerolog.New(output).With().Timestamp().Caller()
+	if o.ServiceName != "" {
+		zc = zc.Str("service", o.ServiceName)
+	}
+	zl := zc.Logger().Level(convertLogLevel(o.Level))
 	return &zerologLogger{zl: zl}, nil
 }
 

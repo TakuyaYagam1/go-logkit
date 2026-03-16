@@ -101,6 +101,17 @@ func TestNoop_AllMethods(t *testing.T) {
 	l.WithError(errors.New("err")).Info("with error")
 }
 
+func TestZerologLogger_Fatal_WithExitFunc_DoesNotExit(t *testing.T) {
+	t.Parallel()
+	called := false
+	l, err := New(WithLevel(InfoLevel), WithOutput(ConsoleOutput), WithExitFunc(func(code int) {
+		called = true
+	}))
+	require.NoError(t, err)
+	l.Fatal("fatal")
+	require.True(t, called)
+}
+
 func TestNew_FileOutput_Success(t *testing.T) {
 	t.Parallel()
 	dir := t.TempDir()
@@ -108,6 +119,7 @@ func TestNew_FileOutput_Success(t *testing.T) {
 	l, err := New(WithOutput(FileOutput), WithFileOptions(FileOptions{Filename: filename}))
 	require.NoError(t, err)
 	require.NotNil(t, l)
+	t.Cleanup(func() { _ = l.Close() })
 	l.Info("file test")
 }
 
@@ -117,6 +129,7 @@ func TestZerologLogger_Log_MergesMultipleFields(t *testing.T) {
 	filename := dir + "/merge.log"
 	l, err := New(WithLevel(InfoLevel), WithOutput(FileOutput), WithFileOptions(FileOptions{Filename: filename}))
 	require.NoError(t, err)
+	t.Cleanup(func() { _ = l.Close() })
 	l.Info("merged", Fields{"a": 1}, Fields{"b": 2})
 	l.Info("override", Fields{"k": "first"}, Fields{"k": "second"})
 	data, err := os.ReadFile(filename)

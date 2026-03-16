@@ -1,0 +1,15 @@
+all: false
+force-file-write: true
+formatter: goimports
+log-level: info
+template: testify
+
+packages:
+  github.com/TakuyaYagam1/go-logkit:
+    interfaces:
+      Logger:
+        config:
+          dir: "mock"
+          filename: "Logger.go"
+          pkgname: "mock"
+          structname: "MockLogger"

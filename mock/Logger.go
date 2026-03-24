@@ -7,8 +7,8 @@ package mock
 import (
 	"context"
 
-	"github.com/takuya-go-kit/go-logkit"
 	mock "github.com/stretchr/testify/mock"
+	"github.com/wahrwelt-kit/go-logkit"
 )
 
 // NewMockLogger creates a new instance of MockLogger. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.

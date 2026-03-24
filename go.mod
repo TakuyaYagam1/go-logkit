@@ -1,4 +1,4 @@
-module github.com/takuya-go-kit/go-logkit
+module github.com/wahrwelt-kit/go-logkit
 
 go 1.25.0
 

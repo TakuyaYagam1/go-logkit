@@ -14,7 +14,7 @@ func captureLogger(t *testing.T) (Logger, *bytes.Buffer) {
 	l, err := New(WithLevel(InfoLevel), WithOutput(ConsoleOutput))
 	require.NoError(t, err)
 	buf := &bytes.Buffer{}
-	zl := l.(*zerologLogger)
+	zl := l.(*zerologLogger) //nolint:revive // internal type known at test setup
 	zl.zl = zl.zl.Output(buf)
 	return zl, buf
 }
@@ -91,7 +91,7 @@ func TestSlogHandler_LevelMapping_Debug(t *testing.T) {
 	l, err := New(WithLevel(DebugLevel), WithOutput(ConsoleOutput))
 	require.NoError(t, err)
 	buf := &bytes.Buffer{}
-	zl := l.(*zerologLogger)
+	zl := l.(*zerologLogger) //nolint:revive // internal type known at test setup
 	zl.zl = zl.zl.Output(buf)
 	slog.New(SlogHandler(zl)).Debug("msg")
 	require.Contains(t, buf.String(), `"level":"debug"`)

@@ -13,7 +13,7 @@ func benchLogger(b *testing.B, opts ...Option) Logger {
 	if err != nil {
 		b.Fatal(err)
 	}
-	zl := l.(*zerologLogger)
+	zl := l.(*zerologLogger) //nolint:revive // internal type known at benchmark setup
 	zl.zl = zl.zl.Output(io.Discard)
 	return zl
 }

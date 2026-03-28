@@ -118,35 +118,35 @@ func New(opts ...Option) (Logger, error) {
 }
 
 func (l *zerologLogger) Debug(msg string, fields ...Fields) {
-	l.log(l.zl.Debug(), msg, fields...) //nolint:zerologlint
+	l.log(l.zl.Debug(), msg, fields...) //nolint:zerologlint // event is consumed by l.log which calls Msg internally
 }
 
 func (l *zerologLogger) Info(msg string, fields ...Fields) {
-	l.log(l.zl.Info(), msg, fields...) //nolint:zerologlint
+	l.log(l.zl.Info(), msg, fields...) //nolint:zerologlint // event is consumed by l.log which calls Msg internally
 }
 
 func (l *zerologLogger) Warn(msg string, fields ...Fields) {
-	l.log(l.zl.Warn(), msg, fields...) //nolint:zerologlint
+	l.log(l.zl.Warn(), msg, fields...) //nolint:zerologlint // event is consumed by l.log which calls Msg internally
 }
 
 func (l *zerologLogger) Error(msg string, fields ...Fields) {
-	l.log(l.zl.Error(), msg, fields...) //nolint:zerologlint
+	l.log(l.zl.Error(), msg, fields...) //nolint:zerologlint // event is consumed by l.log which calls Msg internally
 }
 
 func (l *zerologLogger) DebugContext(_ context.Context, msg string, fields ...Fields) {
-	l.log(l.zl.Debug(), msg, fields...) //nolint:zerologlint
+	l.log(l.zl.Debug(), msg, fields...) //nolint:zerologlint // event is consumed by l.log which calls Msg internally
 }
 
 func (l *zerologLogger) InfoContext(_ context.Context, msg string, fields ...Fields) {
-	l.log(l.zl.Info(), msg, fields...) //nolint:zerologlint
+	l.log(l.zl.Info(), msg, fields...) //nolint:zerologlint // event is consumed by l.log which calls Msg internally
 }
 
 func (l *zerologLogger) WarnContext(_ context.Context, msg string, fields ...Fields) {
-	l.log(l.zl.Warn(), msg, fields...) //nolint:zerologlint
+	l.log(l.zl.Warn(), msg, fields...) //nolint:zerologlint // event is consumed by l.log which calls Msg internally
 }
 
 func (l *zerologLogger) ErrorContext(_ context.Context, msg string, fields ...Fields) {
-	l.log(l.zl.Error(), msg, fields...) //nolint:zerologlint
+	l.log(l.zl.Error(), msg, fields...) //nolint:zerologlint // event is consumed by l.log which calls Msg internally
 }
 
 func (l *zerologLogger) FatalContext(_ context.Context, msg string, fields ...Fields) {
@@ -305,8 +305,6 @@ func convertLogLevel(level Level) zerolog.Level {
 	switch level {
 	case DebugLevel:
 		return zerolog.DebugLevel
-	case InfoLevel:
-		return zerolog.InfoLevel
 	case WarnLevel:
 		return zerolog.WarnLevel
 	case ErrorLevel:
@@ -343,7 +341,7 @@ func (l *zerologLogger) Level() Level {
 // noopLogger implements Logger by discarding all output; Fatal does not call os.Exit(1)
 type noopLogger struct{}
 
-var _noop Logger = &noopLogger{} //nolint:gochecknoglobals
+var _noop Logger = &noopLogger{} //nolint:gochecknoglobals // package-level noop sentinel for zero-value safety
 
 // Noop returns a Logger that discards all output. Use in tests or when logging is disabled
 // Fatal does not call os.Exit(1), so it is safe to use in tests without terminating the process

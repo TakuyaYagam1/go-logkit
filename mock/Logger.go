@@ -16,7 +16,8 @@ import (
 func NewMockLogger(t interface {
 	mock.TestingT
 	Cleanup(func())
-}) *MockLogger {
+},
+) *MockLogger {
 	mock := &MockLogger{}
 	mock.Mock.Test(t)
 
@@ -156,7 +157,7 @@ type MockLogger_DebugContext_Call struct {
 //   - ctx context.Context
 //   - msg string
 //   - fields ...logkit.Fields
-func (_e *MockLogger_Expecter) DebugContext(ctx interface{}, msg interface{}, fields ...interface{}) *MockLogger_DebugContext_Call {
+func (_e *MockLogger_Expecter) DebugContext(ctx, msg interface{}, fields ...interface{}) *MockLogger_DebugContext_Call {
 	return &MockLogger_DebugContext_Call{Call: _e.mock.On("DebugContext",
 		append([]interface{}{ctx, msg}, fields...)...)}
 }
@@ -270,7 +271,7 @@ type MockLogger_ErrorContext_Call struct {
 //   - ctx context.Context
 //   - msg string
 //   - fields ...logkit.Fields
-func (_e *MockLogger_Expecter) ErrorContext(ctx interface{}, msg interface{}, fields ...interface{}) *MockLogger_ErrorContext_Call {
+func (_e *MockLogger_Expecter) ErrorContext(ctx, msg interface{}, fields ...interface{}) *MockLogger_ErrorContext_Call {
 	return &MockLogger_ErrorContext_Call{Call: _e.mock.On("ErrorContext",
 		append([]interface{}{ctx, msg}, fields...)...)}
 }
@@ -384,7 +385,7 @@ type MockLogger_FatalContext_Call struct {
 //   - ctx context.Context
 //   - msg string
 //   - fields ...logkit.Fields
-func (_e *MockLogger_Expecter) FatalContext(ctx interface{}, msg interface{}, fields ...interface{}) *MockLogger_FatalContext_Call {
+func (_e *MockLogger_Expecter) FatalContext(ctx, msg interface{}, fields ...interface{}) *MockLogger_FatalContext_Call {
 	return &MockLogger_FatalContext_Call{Call: _e.mock.On("FatalContext",
 		append([]interface{}{ctx, msg}, fields...)...)}
 }
@@ -498,7 +499,7 @@ type MockLogger_InfoContext_Call struct {
 //   - ctx context.Context
 //   - msg string
 //   - fields ...logkit.Fields
-func (_e *MockLogger_Expecter) InfoContext(ctx interface{}, msg interface{}, fields ...interface{}) *MockLogger_InfoContext_Call {
+func (_e *MockLogger_Expecter) InfoContext(ctx, msg interface{}, fields ...interface{}) *MockLogger_InfoContext_Call {
 	return &MockLogger_InfoContext_Call{Call: _e.mock.On("InfoContext",
 		append([]interface{}{ctx, msg}, fields...)...)}
 }
@@ -612,7 +613,7 @@ type MockLogger_WarnContext_Call struct {
 //   - ctx context.Context
 //   - msg string
 //   - fields ...logkit.Fields
-func (_e *MockLogger_Expecter) WarnContext(ctx interface{}, msg interface{}, fields ...interface{}) *MockLogger_WarnContext_Call {
+func (_e *MockLogger_Expecter) WarnContext(ctx, msg interface{}, fields ...interface{}) *MockLogger_WarnContext_Call {
 	return &MockLogger_WarnContext_Call{Call: _e.mock.On("WarnContext",
 		append([]interface{}{ctx, msg}, fields...)...)}
 }

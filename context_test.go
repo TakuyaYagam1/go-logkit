@@ -31,5 +31,5 @@ func TestIntoContext_NilContext_Panics(t *testing.T) {
 	l, err := New(WithLevel(InfoLevel), WithOutput(ConsoleOutput))
 	require.NoError(t, err)
 	// SA1012: nil is intentional to verify IntoContext panics on nil context
-	require.Panics(t, func() { IntoContext(nil, l) }) //nolint:staticcheck
+	require.Panics(t, func() { IntoContext(nil, l) }) //nolint:staticcheck // intentionally passing nil context to test panic behavior
 }
